@@ -1,0 +1,69 @@
+﻿
+
+<form id="form-submit">
+    <h1>WEATHER</h1
+    <div class="form-group">
+        <label>City:</label>
+        @* <select id="cityList" class="form-control"> 
+             <option value>
+
+             </option>
+             </select>*@
+        <input type="text" class="form-control" id="city" placeholder="e.g San Francisco..." />
+        <small class="form-text">enter city...</small>
+        <button type="submit" class="btn-success mt-3">Result</button>
+    </div>
+</form>
+
+<p id="city-name"> </p>
+
+ <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+ $(document).ready(function () {
+      $("#form-submit").submit(function (event) {
+        performSearch(event);
+    });
+});
+
+
+function performSearch(event) {
+    var request;
+    event.preventDefault();
+
+    request = $.ajax({
+        url: 'https://www.metaweather.com/api/location/search/?query=san',
+        type: "GET",
+        crossDomain : true,
+        data: {
+            q: $("#city").val() 
+
+        }
+    });
+
+    request.done(function (response) {
+        formatSearch(response);
+    });
+}
+
+function formatSearch(jsonObject) {
+    var city_latt_long = jsonObject.latt_long[0];
+
+    $("city-name").text(city_latt_long);
+}
+
+  // Select2
+
+    //$('#cityList').select2({
+    //    theme: 'bootstrap4',
+    //    placeholder: "Lütfen bir şehir seçiniz...",
+    //    allowClear: true
+    //});
+
+    // Select2 end
+
+
+
+
+</script>
+    
